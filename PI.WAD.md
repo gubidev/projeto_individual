@@ -38,6 +38,20 @@ US02 | Como paciente, quero visualizar os horários livres do médico, para que 
 
 US03 | Como médico, quero visualizar a lista de consultas marcadas por dia, para que eu possa me organizar com antecedência.
 
+#### Análise INVEST da US01
+
+I – Independente: Esta US pode ser implementada separadamente de outras funcionalidades, como a visualização das reservas.
+
+N – Negociável: A forma como os horários são cadastrados pode ser ajustada conforme feedback, por exemplo, por intervalo ou por agenda semanal.
+
+V – Valiosa: Permite que o sistema funcione corretamente e possibilita o agendamento por parte dos pacientes.
+
+E – Estimável: Pode ser estimada com clareza, pois envolve formulários de entrada e controle de dados no banco.
+
+S – Pequena: A tarefa é limitada e pode ser dividida facilmente em subcomponentes (interface, lógica, banco).
+
+T – Testável: É possível testar se os horários estão sendo cadastrados corretamente e salvos no banco de dados.
+
 ---
 
 ## <a name="c3"></a>3. Projeto da Aplicação Web
