@@ -30,7 +30,7 @@ A plataforma será simples, acessível e eficaz, com uma interface intuitiva par
 
 <td align="center"><a href="https://www.figma.com/design/lvM7DggvbcJU1FawKxpL2j/Untitled?node-id=1-2&t=qpPqvuLusTfCnXtJ-1"><img style="border-radius: 100%;" src="/persona.png" width="1000px;" alt="Persona 1 Imagem"/>
 
-!(https://www.figma.com/design/lvM7DggvbcJU1FawKxpL2j/Untitled?node-id=1-2&t=qpPqvuLusTfCnXtJ-1)
+
 
 ### 2.2. User Stories (Semana 01)
 
