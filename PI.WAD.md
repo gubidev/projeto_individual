@@ -4,7 +4,7 @@
 
 ## Nome do Projeto
 
-#### Autor do projeto
+#### Felipe Caiafa Alvim Soares
 
 ## Sumário
 
