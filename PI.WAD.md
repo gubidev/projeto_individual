@@ -28,7 +28,7 @@ A plataforma será simples, acessível e eficaz, com uma interface intuitiva par
 
 ### 2.1. Personas (Semana 01)
 
-![a](https://embed.figma.com/design/lvM7DggvbcJU1FawKxpL2j/Untitled?node-id=0-1&embed-host=share)
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/lvM7DggvbcJU1FawKxpL2j/Untitled?node-id=0-1&embed-host=share" allowfullscreen></iframe>
 
 ### 2.2. User Stories (Semana 01)
 
