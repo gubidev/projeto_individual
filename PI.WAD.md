@@ -28,7 +28,7 @@ A plataforma será simples, acessível e eficaz, com uma interface intuitiva par
 
 ### 2.1. Personas (Semana 01)
 
-<td align="center"><a href="https://www.figma.com/design/lvM7DggvbcJU1FawKxpL2j/Untitled?node-id=1-2&t=qpPqvuLusTfCnXtJ-1"><img style="border-radius: 10%;" src="/isaac.jpg" width="100px;" alt="Isaac Souza - Foto"/>
+<td align="center"><a href="https://www.figma.com/design/lvM7DggvbcJU1FawKxpL2j/Untitled?node-id=1-2&t=qpPqvuLusTfCnXtJ-1"><img style="border-radius: 10%;" src="/persona.png" width="100px;" alt="Persona 1 Imagem"/>
 
 !(https://www.figma.com/design/lvM7DggvbcJU1FawKxpL2j/Untitled?node-id=1-2&t=qpPqvuLusTfCnXtJ-1)
 
