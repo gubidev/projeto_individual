@@ -63,18 +63,27 @@ T – Testável: É possível testar se os horários estão sendo cadastrados co
 <td align="center"><img style="border-radius: 100%;" src="/assets/WAD/diagrama.png" width="1000px;" alt="Diagrama Imagem"/>
 
 ```
-CREATE TABLE "pacientes" (
+CREATE TABLE "medicos" (
   "id" SERIAL PRIMARY KEY,
   "nome" VARCHAR(100) NOT NULL,
   "email" VARCHAR(100) UNIQUE NOT NULL,
-  "telefone" VARCHAR(20),
-  "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+  "senha" VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE "horarios_disponiveis" (
   "id" SERIAL PRIMARY KEY,
+  "medico_id" INTEGER NOT NULL,
   "data" DATE NOT NULL,
   "hora" TIME NOT NULL,
+  "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+);
+
+CREATE TABLE "pacientes" (
+  "id" SERIAL PRIMARY KEY,
+  "nome" VARCHAR(100) NOT NULL,
+  "email" VARCHAR(100) UNIQUE NOT NULL,
+  "senha" VARCHAR(100) NOT NULL,
+  "telefone" VARCHAR(20),
   "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
@@ -88,20 +97,25 @@ CREATE TABLE "reservas" (
 CREATE TABLE "anotacoes" (
   "id" SERIAL PRIMARY KEY,
   "paciente_id" INTEGER NOT NULL,
+  "medico_id" INTEGER NOT NULL,
   "titulo" VARCHAR(100),
   "conteudo" TEXT NOT NULL,
   "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
-CREATE UNIQUE INDEX "horario_unico" ON "horarios_disponiveis" ("data", "hora");
+CREATE UNIQUE INDEX "horario_unico" ON "horarios_disponiveis" ("data", "hora", "medico_id");
 
 CREATE UNIQUE INDEX "reserva_unica_por_horario" ON "reservas" ("horario_id");
+
+ALTER TABLE "horarios_disponiveis" ADD CONSTRAINT "fk_horario_medico" FOREIGN KEY ("medico_id") REFERENCES "medicos" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "reservas" ADD CONSTRAINT "fk_paciente" FOREIGN KEY ("paciente_id") REFERENCES "pacientes" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "reservas" ADD CONSTRAINT "fk_horario" FOREIGN KEY ("horario_id") REFERENCES "horarios_disponiveis" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "anotacoes" ADD CONSTRAINT "fk_anotacoes_paciente" FOREIGN KEY ("paciente_id") REFERENCES "pacientes" ("id") ON DELETE CASCADE;
+
+ALTER TABLE "anotacoes" ADD CONSTRAINT "fk_anotacoes_medico" FOREIGN KEY ("medico_id") REFERENCES "medicos" ("id") ON DELETE CASCADE;
 
 
 ```
