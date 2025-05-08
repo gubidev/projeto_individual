@@ -60,9 +60,54 @@ T – Testável: É possível testar se os horários estão sendo cadastrados co
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-*Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/diagrama.png" width="1000px;" alt="Diagrama Imagem"/>
 
-*Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
+```
+Table "pacientes" {
+  "id" SERIAL [pk, increment]
+  "nome" VARCHAR(100) [not null]
+  "email" VARCHAR(100) [unique, not null]
+  "telefone" VARCHAR(20)
+  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "horarios_disponiveis" {
+  "id" SERIAL [pk, increment]
+  "data" DATE [not null]
+  "hora" TIME [not null]
+  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    (data, hora) [unique, name: "horario_unico"]
+  }
+}
+
+Table "reservas" {
+  "id" SERIAL [pk, increment]
+  "paciente_id" INTEGER [not null]
+  "horario_id" INTEGER [not null]
+  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    horario_id [unique, name: "reserva_unica_por_horario"]
+  }
+}
+
+Table "anotacoes" {
+  "id" SERIAL [pk, increment]
+  "paciente_id" INTEGER [not null]
+  "titulo" VARCHAR(100)
+  "conteudo" TEXT [not null]
+  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Ref "fk_paciente":"pacientes"."id" < "reservas"."paciente_id" [delete: cascade]
+
+Ref "fk_horario":"horarios_disponiveis"."id" < "reservas"."horario_id" [delete: cascade]
+
+Ref "fk_anotacoes_paciente":"pacientes"."id" < "anotacoes"."paciente_id" [delete: cascade]
+
+```
 
 ### 3.1.1 BD e Models (Semana 5)
 *Descreva aqui os Models implementados no sistema web*
