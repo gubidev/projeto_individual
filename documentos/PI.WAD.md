@@ -63,49 +63,46 @@ T – Testável: É possível testar se os horários estão sendo cadastrados co
 <td align="center"><img style="border-radius: 100%;" src="/assets/WAD/diagrama.png" width="1000px;" alt="Diagrama Imagem"/>
 
 ```
-Table "pacientes" {
-  "id" SERIAL [pk, increment]
-  "nome" VARCHAR(100) [not null]
-  "email" VARCHAR(100) [unique, not null]
-  "telefone" VARCHAR(20)
-  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
-}
+CREATE TABLE "pacientes" (
+  "id" SERIAL PRIMARY KEY,
+  "nome" VARCHAR(100) NOT NULL,
+  "email" VARCHAR(100) UNIQUE NOT NULL,
+  "telefone" VARCHAR(20),
+  "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+);
 
-Table "horarios_disponiveis" {
-  "id" SERIAL [pk, increment]
-  "data" DATE [not null]
-  "hora" TIME [not null]
-  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+CREATE TABLE "horarios_disponiveis" (
+  "id" SERIAL PRIMARY KEY,
+  "data" DATE NOT NULL,
+  "hora" TIME NOT NULL,
+  "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+);
 
-  Indexes {
-    (data, hora) [unique, name: "horario_unico"]
-  }
-}
+CREATE TABLE "reservas" (
+  "id" SERIAL PRIMARY KEY,
+  "paciente_id" INTEGER NOT NULL,
+  "horario_id" INTEGER NOT NULL,
+  "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+);
 
-Table "reservas" {
-  "id" SERIAL [pk, increment]
-  "paciente_id" INTEGER [not null]
-  "horario_id" INTEGER [not null]
-  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+CREATE TABLE "anotacoes" (
+  "id" SERIAL PRIMARY KEY,
+  "paciente_id" INTEGER NOT NULL,
+  "titulo" VARCHAR(100),
+  "conteudo" TEXT NOT NULL,
+  "criado_em" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+);
 
-  Indexes {
-    horario_id [unique, name: "reserva_unica_por_horario"]
-  }
-}
+CREATE UNIQUE INDEX "horario_unico" ON "horarios_disponiveis" ("data", "hora");
 
-Table "anotacoes" {
-  "id" SERIAL [pk, increment]
-  "paciente_id" INTEGER [not null]
-  "titulo" VARCHAR(100)
-  "conteudo" TEXT [not null]
-  "criado_em" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
-}
+CREATE UNIQUE INDEX "reserva_unica_por_horario" ON "reservas" ("horario_id");
 
-Ref "fk_paciente":"pacientes"."id" < "reservas"."paciente_id" [delete: cascade]
+ALTER TABLE "reservas" ADD CONSTRAINT "fk_paciente" FOREIGN KEY ("paciente_id") REFERENCES "pacientes" ("id") ON DELETE CASCADE;
 
-Ref "fk_horario":"horarios_disponiveis"."id" < "reservas"."horario_id" [delete: cascade]
+ALTER TABLE "reservas" ADD CONSTRAINT "fk_horario" FOREIGN KEY ("horario_id") REFERENCES "horarios_disponiveis" ("id") ON DELETE CASCADE;
 
-Ref "fk_anotacoes_paciente":"pacientes"."id" < "anotacoes"."paciente_id" [delete: cascade]
+ALTER TABLE "anotacoes" ADD CONSTRAINT "fk_anotacoes_paciente" FOREIGN KEY ("paciente_id") REFERENCES "pacientes" ("id") ON DELETE CASCADE;
+
 
 ```
 
