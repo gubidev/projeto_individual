@@ -136,7 +136,17 @@ ALTER TABLE "anotacoes" ADD CONSTRAINT "fk_anotacoes_medico" FOREIGN KEY ("medic
 
 ### 3.3. Wireframes (Semana 03)
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+<td align="center"><a href="https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t=z2hIJHQdGXZ6pIuR-1"><img style="border-radius: 100%;" src="/assets/WAD/wireframe_login.png" width="1000px;" alt="Wireframe Tela Login"/>
+
+<td align="center"><a href="https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t=z2hIJHQdGXZ6pIuR-1"><img style="border-radius: 100%;" src="/assets/WAD/wireframe_bemvindo_dr.png" width="1000px;" alt="Wireframe Tela Bemvindo Doutor"/>
+
+<td align="center"><a href="https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t=z2hIJHQdGXZ6pIuR-1"><img style="border-radius: 100%;" src="/assets/WAD/wireframe_pacientes_dia.png" width="1000px;" alt="Wireframe Pacientes do dia"/>
+
+<td align="center"><a href="https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t=z2hIJHQdGXZ6pIuR-1"><img style="border-radius: 100%;" src="/assets/WAD/wireframe_anotações.png" width="1000px;" alt="Wireframe Anotações do paciente"/>
+
+<td align="center"><a href="https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t=z2hIJHQdGXZ6pIuR-1"><img style="border-radius: 100%;" src="/assets/WAD/wireframe_bemvindo.png" width="1000px;" alt="Wireframe Tela Bemvindo Paciente"/>
+
+<td align="center"><a href="https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t=z2hIJHQdGXZ6pIuR-1"><img style="border-radius: 100%;" src="/assets/WAD/wireframe_horario.png" width="1000px;" alt="Wireframe Tela Marcar Horario"/>
 
 ### 3.4. Guia de estilos (Semana 05)
 
