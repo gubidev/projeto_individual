@@ -1,12 +1,13 @@
 const express = require('express');
-const app = express();
 const path = require('path');
 const routes = require('./routes');
+const app = express(); // <- TEM QUE VIR ANTES de usar `app`
 
-// Configura o mecanismo de views para EJS
-app.set('view engine', 'ejs');
+// Middleware para interpretar dados de formulários
+app.use(express.urlencoded({ extended: true }));
 
 // Define onde ficam as views
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Define a pasta pública com CSS e outros arquivos estáticos

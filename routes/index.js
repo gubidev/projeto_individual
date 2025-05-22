@@ -1,12 +1,14 @@
-// routes/index.js
 const express = require('express');
 const router = express.Router();
-const TarefaController = require('../controllers/TarefaController');
+const HorarioController = require('../controllers/HorarioController');
 
-// Rotas para o CRUD de tarefas
-router.post('/tarefas', TarefaController.criarTarefa);
-router.get('/tarefas', TarefaController.listarTarefas);
-router.put('/tarefas/:id', TarefaController.editarTarefa);
-router.delete('/tarefas/:id', TarefaController.excluirTarefa);
+// Página inicial
+router.get('/', (req, res) => {
+  res.render('index');
+});
+
+// Rota para exibir formulário de horários
+router.get('/horarios', HorarioController.mostrarFormulario);
+router.post('/horarios', HorarioController.criar);
 
 module.exports = router;
