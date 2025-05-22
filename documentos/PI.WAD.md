@@ -125,7 +125,7 @@ ALTER TABLE "anotacoes" ADD CONSTRAINT "fk_anotacoes_medico" FOREIGN KEY ("medic
 
 ### 3.2. Arquitetura (Semana 5)
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/diagrama_mvc.png" width="1000px;" alt="Diagrama MVC Imagem"/>
 
 **Instruções para criação do diagrama de arquitetura**  
 - **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
