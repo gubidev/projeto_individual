@@ -127,8 +127,6 @@ Responsável por interagir com a tabela horarios_disponiveis. Esse model permite
 
 Criar um novo horário disponível para um médico já cadastrado.
 
-Listar todos os horários disponíveis no sistema, ordenados por data e hora.
-
 ### 3.2. Arquitetura (Semana 5)
 
 <td align="center"><img style="border-radius: 100%;" src="/assets/WAD/diagrama_mvc.png" width="1000px;" alt="Diagrama MVC Imagem"/>
