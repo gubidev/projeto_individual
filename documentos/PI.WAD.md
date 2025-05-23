@@ -121,7 +121,11 @@ ALTER TABLE "anotacoes" ADD CONSTRAINT "fk_anotacoes_medico" FOREIGN KEY ("medic
 ```
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+
+1. Model: Horario.js
+Responsável por interagir com a tabela horarios_disponiveis. Esse model permite:
+
+Criar um novo horário disponível para um médico já cadastrado.
 
 ### 3.2. Arquitetura (Semana 5)
 
