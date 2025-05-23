@@ -154,12 +154,16 @@ Criar um novo horário disponível para um médico já cadastrado.
 
 ### 3.4. Guia de estilos (Semana 05)
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/guia_estilo.png" width="1000px;" alt="Wireframe Tela Login"/>
 
 
 ### 3.5. Protótipo de alta fidelidade (Semana 05)
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+link: https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t=iBE5LQLBOCClMPOX-1 
+
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/anotacoes_pacientes2.png" width="1000px;" alt="Wireframe Tela Login"/>
+
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/horarios_disponiveis2.png" width="1000px;" alt="Wireframe Tela Login"/>
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
