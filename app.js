@@ -1,22 +1,30 @@
 const express = require('express');
 const path = require('path');
 const routes = require('./routes');
-const app = express(); // <- TEM QUE VIR ANTES de usar `app`
+const session = require('express-session');
+const app = express(); // 👍 Correto
 
 // Middleware para interpretar dados de formulários
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // 👍 Obrigatório para req.body
 
-// Define onde ficam as views
+// Middleware de sessão (👍 ESSENCIAL para funcionar o login com req.session)
+app.use(session({
+  secret: 'segredo-supersecreto',
+  resave: false,
+  saveUninitialized: false
+}));
+
+// View engine configurada com EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views')); // 👍 Certo
 
-// Define a pasta pública com CSS e outros arquivos estáticos
+// Arquivos estáticos (CSS, JS, imagens...)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Usa o arquivo de rotas
+// Usa as rotas
 app.use('/', routes);
 
-// Inicia o servidor na porta 3000
+// Inicia servidor
 app.listen(3000, () => {
   console.log('Servidor rodando em http://localhost:3000');
 });

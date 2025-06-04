@@ -1,5 +1,6 @@
 const pool = require('../config/db');
 
+
 module.exports = {
   async criar(medico_id, data, hora) {
     const result = await pool.query(
@@ -14,3 +15,5 @@ module.exports = {
     return result.rows;
   }
 };
+
+

@@ -1,23 +1,20 @@
 const Horario = require('../models/Horario');
-const pool = require('../config/db'); // Para buscar os médicos
+const pool = require('../config/db');
 
 const HorariosController = {
-  // Mostra o formulário com a lista de médicos
   mostrarFormulario: async (req, res) => {
     try {
       const resultado = await pool.query('SELECT id, nome FROM medicos ORDER BY nome');
       const medicos = resultado.rows;
-      res.render('horarios', { medicos }); // passa os médicos para a view
+      res.render('horarios', { medicos });
     } catch (err) {
       console.error(err);
       res.status(500).send('Erro ao carregar o formulário');
     }
   },
 
-  // Salva o horário criado
   criar: async (req, res) => {
     const { medico_id, data, hora } = req.body;
-
     try {
       await Horario.criar(medico_id, data, hora);
       res.redirect('/horarios');
@@ -26,6 +23,32 @@ const HorariosController = {
       res.status(500).send('Erro ao salvar horário');
     }
   },
+
+  criarViaDashboard: async (req, res) => {
+    const { id_medico, data, horario } = req.body;
+    try {
+      await Horario.criar(id_medico, data, horario);
+      res.redirect(`/dashboard?id_medico=${id_medico}`);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Erro ao salvar horário');
+    }
+  },
+
+  listarPorData: async (req, res) => {
+    const { data, id_medico } = req.query;
+
+    try {
+      const result = await pool.query(
+        'SELECT id, hora FROM horarios_disponiveis WHERE data = $1 AND medico_id = $2 ORDER BY hora',
+        [data, id_medico]
+      );
+      res.json({ horarios: result.rows });
+    } catch (err) {
+      console.error('Erro ao buscar horários:', err);
+      res.status(500).json({ error: 'Erro ao buscar horários' });
+    }
+  }
 };
 
 module.exports = HorariosController;
