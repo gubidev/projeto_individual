@@ -6,6 +6,7 @@
   <title>Agendamento - <%= nomePaciente %></title>
   <link rel="stylesheet" href="/css/styles.css">
   <style>
+    /* Estilos mantidos do arquivo anterior */
     .calendar-container {
       margin-top: 30px;
     }
@@ -166,10 +167,16 @@
         const response = await fetch('/reservar-horario', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ horarioId })
+          body: JSON.stringify({ 
+            horarioId: horarioId 
+          })
         });
+
+        if (!response.ok) {
+          throw new Error('Erro na resposta do servidor');
+        }
 
         const resultado = await response.json();
         
@@ -181,7 +188,7 @@
         }
       } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao conectar com o servidor');
+        alert('Erro ao conectar com o servidor: ' + error.message);
       }
     }
 

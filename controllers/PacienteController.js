@@ -52,8 +52,23 @@ const PacienteController = {
       });
     }
 
+    // Verificação robusta do corpo da requisição
+    if (!req.body || typeof req.body.horarioId === 'undefined') {
+      return res.status(400).json({
+        success: false,
+        error: 'Dados de reserva inválidos. Horário não especificado.'
+      });
+    }
+
+    const horarioId = parseInt(req.body.horarioId);
+    if (isNaN(horarioId)) {
+      return res.status(400).json({
+        success: false,
+        error: 'ID do horário inválido'
+      });
+    }
+
     try {
-      const { horarioId } = req.body;
       await Horario.reservarHorario(horarioId, req.session.pacienteId);
       
       res.json({ 

@@ -1,53 +1,40 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const routes = require('./routes');
-const session = require('express-session');
+
 const app = express();
 
-// 1. Configuração da sessão (DEVE VIR PRIMEIRO)
+// Configurações essenciais
+app.use(express.json()); // Para parsear application/json
+app.use(express.urlencoded({ extended: true })); // Para parsear application/x-www-form-urlencoded
+
 app.use(session({
   secret: 'segredo-supersecreto',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Opcional para desenvolvimento
+  cookie: { secure: false }
 }));
 
-// 2. Middleware para debug (opcional)
-app.use((req, res, next) => {
-  console.log('Sessão atual:', req.session); // 👈 Verifique se medicoId está sendo setado
-  next();
-});
-
-// 3. Parser de formulários
-app.use(express.urlencoded({ extended: true }));
-
-// 4. Middleware de redirecionamento (AGORA pode acessar req.session)
-app.use((req, res, next) => {
-  if (req.session.medicoId && req.path === '/') {
-    return res.redirect('/dashboard');
-  }
-  if (req.session.pacienteId && req.path === '/') {
-    return res.redirect('/paciente/dashboard');
-  }
-  next();
-});
-
-// 5. Configuração da view engine
+// Configuração da view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// 6. Arquivos estáticos
+// Arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 7. Rotas
+// Rotas
 app.use('/', routes);
 
-// 8. Error handling (novo)
+// Middleware de erro
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Algo quebrou!');
+  res.status(500).render('error', {
+    message: 'Ocorreu um erro inesperado no servidor'
+  });
 });
 
-app.listen(3000, () => {
-  console.log('Servidor rodando em http://localhost:3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

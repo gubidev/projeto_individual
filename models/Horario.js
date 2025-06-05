@@ -69,16 +69,6 @@ class Horario {
     );
     return result.rows;
   }
-
-  static async listarTodos() {
-    const result = await pool.query(
-      `SELECT h.*, r.paciente_id
-       FROM horarios_disponiveis h
-       LEFT JOIN reservas r ON h.id = r.horario_id
-       ORDER BY h.data, h.hora`
-    );
-    return result.rows;
-  }
 }
 
 module.exports = Horario;
