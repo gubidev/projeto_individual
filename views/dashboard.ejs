@@ -3,49 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - <%= nomeMedico %></title>
-  <link rel="stylesheet" href="/views/css/style.css">
-  <style>
-    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; text-align: center; }
-    .day { padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .red { background-color: #f8d7da; color: #721c24; }
-    .green { background-color: #d4edda; color: #155724; }
-    .blue { background-color: #d1ecf1; color: #0c5460; }
-    .controls { margin-bottom: 20px; }
-  </style>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <h1>Bem-vindo, <%= nomeMedico %>!</h1>
 
-  <!-- Substitua a div .controls por esta versão melhorada -->
-<div class="controls">
-  <div class="month-navigation">
-    <a href="/dashboard?id_medico=<%= idMedico %>&mes=<%= mes - 1 %>&ano=<%= (mes === 0) ? ano - 1 : ano %>" 
-       class="nav-button">◀ Mês Anterior</a>
-    
-    <h2 style="display: inline-block; margin: 0 15px;">
-      <%= new Date(ano, mes).toLocaleDateString('pt-BR', {month: 'long', year: 'numeric'}) %>
-    </h2>
-    
-    <a href="/dashboard?id_medico=<%= idMedico %>&mes=<%= mes + 1 %>&ano=<%= (mes === 11) ? ano + 1 : ano %>" 
-       class="nav-button">Próximo Mês ▶</a>
-  </div>
+  <div class="controls">
+    <div class="month-navigation">
+      <a href="/dashboard?id_medico=<%= idMedico %>&mes=<%= mes - 1 %>&ano=<%= (mes === 0) ? ano - 1 : ano %>" class="nav-button">◀ Mês Anterior</a>
+      <h2><%= new Date(ano, mes).toLocaleDateString('pt-BR', {month: 'long', year: 'numeric'}) %></h2>
+      <a href="/dashboard?id_medico=<%= idMedico %>&mes=<%= mes + 1 %>&ano=<%= (mes === 11) ? ano + 1 : ano %>" class="nav-button">Próximo Mês ▶</a>
+    </div>
 
-  <form method="GET" action="/dashboard" style="margin-top: 10px;">
-    <input type="hidden" name="id_medico" value="<%= idMedico %>">
-    <select name="mes" onchange="this.form.submit()">
-      <% for (let m = 0; m < 12; m++) { %>
-        <option value="<%= m %>" <%= m === mes ? 'selected' : '' %>>
-          <%= ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m] %>
-        </option>
-      <% } %>
-    </select>
-    <select name="ano" onchange="this.form.submit()">
-      <% for (let y = anoAtual - 2; y <= anoAtual + 2; y++) { %>
-        <option value="<%= y %>" <%= y === ano ? 'selected' : '' %>><%= y %></option>
-      <% } %>
-    </select>
-  </form>
-</div>
+    <form method="GET" action="/dashboard">
+      <input type="hidden" name="id_medico" value="<%= idMedico %>">
+      <select name="mes" onchange="this.form.submit()">
+        <% for (let m = 0; m < 12; m++) { %>
+          <option value="<%= m %>" <%= m === mes ? 'selected' : '' %>>
+            <%= ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m] %>
+          </option>
+        <% } %>
+      </select>
+      <select name="ano" onchange="this.form.submit()">
+        <% for (let y = anoAtual - 2; y <= anoAtual + 2; y++) { %>
+          <option value="<%= y %>" <%= y === ano ? 'selected' : '' %>><%= y %></option>
+        <% } %>
+      </select>
+    </form>
+  </div>
 
   <div class="calendar">
     <% dias.forEach(dia => { %>
@@ -61,70 +46,72 @@
     <% }) %>
   </div>
 
-  <!-- Modal -->
-  <div id="modal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%);
-  background:white; border:1px solid #ccc; padding:20px; z-index:9999;">
+  <div id="modal" class="modal" style="display:none;">
     <h3 id="modal-title"></h3>
     <div id="modal-content"></div>
     <button onclick="closeModal()">Fechar</button>
   </div>
 
-  <script>
-    function handleDayClick(element) {
-      const dia = element.dataset.dia;
-      const mes = parseInt(element.dataset.mes) + 1;
-      const ano = element.dataset.ano;
-      const status = element.dataset.status;
+<script>
+  function handleDayClick(element) {
+    const dia = element.dataset.dia;
+    const mes = parseInt(element.dataset.mes) + 1;
+    const ano = element.dataset.ano;
+    const status = element.dataset.status;
+    const dataCompleta = `${ano}-${String(mes).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
 
-      const dataCompleta = `${ano}-${String(mes).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+    document.getElementById('modal').style.display = 'block';
+    document.getElementById('modal-title').innerText = `Dia ${dia}/${mes}/${ano}`;
 
-      document.getElementById('modal').style.display = 'block';
-      document.getElementById('modal-title').innerText = `Dia ${dia}/${mes}/${ano}`;
-
-      if (status === 'red') {
-  document.getElementById('modal-content').innerHTML = `
-    <form method="POST" action="/horarios-dashboard">
-      <input type="hidden" name="data" value="${dataCompleta}">
-      <input type="hidden" name="medico_id" value="<%= idMedico %>">
-      <label>Horário disponível:</label>
-      <input type="time" name="hora" required>
-      <button type="submit">Salvar</button>
-    </form>
-  `;
-} else {
-  // Busca horários já marcados
-  fetch(`/horarios-por-data?data=${dataCompleta}&id_medico=<%= idMedico %>`)
-    .then(res => res.json())
-    .then(data => {
-      let html = "<h4>Horários marcados:</h4>";
-      if (data.horarios.length > 0) {
-        html += data.horarios.map(h => `
-          <div><strong>${h.hora}</strong></div>
-        `).join('');
-      } else {
-        html += "<p>Nenhum horário marcado ainda.</p>";
-      }
-
-      // Formulário para adicionar novo horário no mesmo dia
-      html += `
-        <hr>
+    if (status === 'red') {
+      document.getElementById('modal-content').innerHTML = `
         <form method="POST" action="/horarios-dashboard">
           <input type="hidden" name="data" value="${dataCompleta}">
           <input type="hidden" name="id_medico" value="<%= idMedico %>">
-          <label>Adicionar novo horário:</label>
+          <label>Horário disponível:</label>
           <input type="time" name="horario" required>
           <button type="submit">Salvar</button>
         </form>
       `;
+    } else {
+      fetch(`/horarios-por-data?data=${dataCompleta}&id_medico=<%= idMedico %>`)
+        .then(res => res.json())
+        .then(data => {
+          let html = "<h4>Horários:</h4>";
+          if (data.horarios && data.horarios.length > 0) {
+            html += data.horarios.map(h => `
+              <div class="horario-item">
+                <strong>${h.hora}</strong> - ${h.paciente_nome ? `Paciente: ${h.paciente_nome}` : 'Disponível'}
+                
+              </div>
+            `).join('');
+          } else {
+            html += "<p>Nenhum horário registrado.</p>";
+          }
 
-      document.getElementById('modal-content').innerHTML = html;
-    });
-}
-    }
+          html += `
+            <hr>
+            <form method="POST" action="/horarios-dashboard">
+              <input type="hidden" name="data" value="${dataCompleta}">
+              <input type="hidden" name="id_medico" value="<%= idMedico %>">
+              <label>Adicionar novo horário:</label>
+              <input type="time" name="horario" required>
+              <button type="submit">Salvar</button>
+            </form>
+          `;
 
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
+          document.getElementById('modal-content').innerHTML = html;
+        })
+        .catch(error => {
+          document.getElementById('modal-content').innerHTML = "<p>Erro ao carregar horários.</p>";
+          console.error('Erro ao buscar horários:', error);
+        });
     }
-  </script>
+  }
+
+  function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+  }
+</script>
 </body>
 </html>

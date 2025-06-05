@@ -1,3 +1,4 @@
+// controllers/HorarioController.js
 const Horario = require('../models/Horario');
 const pool = require('../config/db');
 
@@ -39,10 +40,19 @@ const HorariosController = {
     const { data, id_medico } = req.query;
 
     try {
-      const result = await pool.query(
-        'SELECT id, hora FROM horarios_disponiveis WHERE data = $1 AND medico_id = $2 ORDER BY hora',
-        [data, id_medico]
-      );
+      const result = await pool.query(`
+        SELECT 
+          h.id,
+          h.hora,
+          r.id AS reserva_id,
+          p.nome AS paciente_nome
+        FROM horarios_disponiveis h
+        LEFT JOIN reservas r ON r.horario_id = h.id
+        LEFT JOIN pacientes p ON p.id = r.paciente_id
+        WHERE h.data = $1 AND h.medico_id = $2
+        ORDER BY h.hora
+      `, [data, id_medico]);
+
       res.json({ horarios: result.rows });
     } catch (err) {
       console.error('Erro ao buscar horários:', err);

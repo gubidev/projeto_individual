@@ -51,7 +51,7 @@ router.get('/dashboard', async (req, res) => {
 // Rotas do Paciente
 router.get('/paciente/dashboard', PacienteController.mostrarDashboard);
 router.post('/reservar-horario', 
-  express.json(), // Middleware específico para esta rota
+  express.json(),
   PacienteController.reservarHorario
 );
 
