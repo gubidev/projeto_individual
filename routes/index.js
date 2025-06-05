@@ -1,41 +1,38 @@
 const express = require('express');
 const router = express.Router();
-
-const Medico = require('../models/medico');
+const authController = require('../controllers/authController');
 const HorarioController = require('../controllers/HorarioController');
 const PacienteController = require('../controllers/PacienteController');
-const authController = require('../controllers/authController');
+const Medico = require('../models/medico');
 const { getDiasDoMesComCores } = require('../utils/calendarUtils');
 
-// Redirecionar a raiz para o login do paciente
+// Rota principal
 router.get('/', (req, res) => {
-  res.redirect('/paciente/login');
+  res.render('login_unificado', {
+    error: null,
+    tipo: req.query.tipo || 'paciente',
+    registroSucesso: req.query.registro === 'sucesso'
+  });
 });
 
-// Página inicial antiga (opcional)
-router.get('/pi', (req, res) => {
-  res.render('index');
-});
-
-// Página de login de médico
-router.get('/login', (req, res) => {
-  res.render('login', { error: null });
-});
-
-// Login do médico (POST)
+// Rotas de Autenticação
 router.post('/login', authController.login);
+router.post('/paciente/registro', authController.registrarPaciente);
+router.get('/logout', authController.logout);
 
-// Dashboard do médico com calendário
+// Rotas do Médico
 router.get('/dashboard', async (req, res) => {
-  const medicoId = req.session.medicoId;
-  if (!medicoId) return res.redirect('/login');
-
-  const mes = parseInt(req.query.mes) || new Date().getMonth(); // 0 a 11
-  const ano = parseInt(req.query.ano) || new Date().getFullYear();
+  if (!req.session.medicoId) return res.redirect('/?tipo=medico');
 
   try {
-    const medico = await Medico.findById(medicoId);
-    const dias = await getDiasDoMesComCores(medicoId, mes, ano);
+    let mes = parseInt(req.query.mes) || new Date().getMonth();
+    let ano = parseInt(req.query.ano) || new Date().getFullYear();
+
+    if (mes > 11) { mes = 0; ano++; }
+    if (mes < 0) { mes = 11; ano--; }
+
+    const medico = await Medico.findById(req.session.medicoId);
+    const dias = await getDiasDoMesComCores(req.session.medicoId, mes, ano);
 
     res.render('dashboard', {
       nomeMedico: medico.nome,
@@ -45,47 +42,24 @@ router.get('/dashboard', async (req, res) => {
       ano,
       anoAtual: new Date().getFullYear()
     });
-
   } catch (err) {
     console.error(err);
-    res.redirect('/');
+    res.redirect('/logout');
   }
 });
 
-// Página de dashboard do paciente
-router.get('/paciente/dashboard', (req, res) => {
-  if (!req.session.pacienteId) return res.redirect('/paciente/login');
-  res.send(`Bem-vindo, ${req.session.nomePaciente}!`);
-});
+// Rotas do Paciente
+router.get('/paciente/dashboard', PacienteController.mostrarDashboard);
+router.post('/reservar-horario', PacienteController.reservarHorario);
 
-// Login de paciente
-router.get('/paciente/login', (req, res) => {
-  res.render('paciente_login', { error: null });
-});
-
-router.post('/paciente/login', authController.loginPaciente);
-
-// Registro de paciente
-router.get('/paciente/registro', (req, res) => {
-  res.render('paciente_registro', { error: null });
-});
-
-router.post('/paciente/registro', authController.registrarPaciente);
-
-// Formulário antigo de horário
+// Rotas de Horários
 router.get('/horarios', HorarioController.mostrarFormulario);
 router.post('/horarios', HorarioController.criar);
-
-// Novo: salvar horário via dashboard
 router.post('/horarios-dashboard', HorarioController.criarViaDashboard);
-
-// Buscar pacientes por data
-router.get('/pacientes/:data', PacienteController.buscarPorData);
-
-// Salvar anotação
-router.post('/anotacoes', PacienteController.salvarAnotacao);
-
-// Listar horários por data
 router.get('/horarios-por-data', HorarioController.listarPorData);
+
+// Rotas Legacy (compatibilidade)
+router.get('/login', (req, res) => res.redirect('/?tipo=medico'));
+router.get('/paciente/login', (req, res) => res.redirect('/?tipo=paciente'));
 
 module.exports = router;

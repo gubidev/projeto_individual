@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento - <%= nomePaciente %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .calendar-container {
+      margin-top: 30px;
+    }
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+    .calendar-weekday {
+      text-align: center;
+      font-weight: bold;
+      padding: 10px;
+      background: #f0f0f0;
+    }
+    .calendar-day {
+      min-height: 100px;
+      border: 1px solid #ddd;
+      padding: 5px;
+    }
+    .day-number {
+      text-align: right;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .time-slot {
+      background: #e8f5e9;
+      padding: 3px;
+      margin: 2px 0;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .time-slot:hover {
+      background: #c8e6c9;
+    }
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .control-group {
+      margin-bottom: 15px;
+    }
+    select {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Bem-vindo, <%= nomePaciente %></h1>
+      <a href="/logout" class="btn">Sair</a>
+    </header>
+
+    <div class="controls">
+      <form method="GET" action="/paciente/dashboard">
+        <div class="control-group">
+          <label for="medico">Médico:</label>
+          <select id="medico" name="medico_id" required onchange="this.form.submit()">
+            <option value="">Selecione um médico</option>
+            <% medicos.forEach(medico => { %>
+              <option 
+                value="<%= medico.id %>" 
+                <%= medico.id === medicoSelecionado ? 'selected' : '' %>>
+                <%= medico.nome %>
+              </option>
+            <% }); %>
+          </select>
+        </div>
+
+        <% if (medicoSelecionado) { %>
+          <div class="control-group">
+            <label for="mes">Mês:</label>
+            <select id="mes" name="mes" onchange="this.form.submit()">
+              <% for (let m = 0; m < 12; m++) { %>
+                <option 
+                  value="<%= m %>" 
+                  <%= m === mes ? 'selected' : '' %>>
+                  <%= ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                       'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m] %>
+                </option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="ano">Ano:</label>
+            <select id="ano" name="ano" onchange="this.form.submit()">
+              <% for (let y = anoAtual - 1; y <= anoAtual + 1; y++) { %>
+                <option 
+                  value="<%= y %>" 
+                  <%= y === ano ? 'selected' : '' %>>
+                  <%= y %>
+                </option>
+              <% } %>
+            </select>
+          </div>
+        <% } %>
+      </form>
+    </div>
+
+    <% if (medicoSelecionado) { %>
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <h2>
+            <%= ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][mes] %>
+            <%= ano %>
+          </h2>
+        </div>
+
+        <div class="calendar">
+          <% ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].forEach(dia => { %>
+            <div class="calendar-weekday"><%= dia %></div>
+          <% }); %>
+
+          <% for (let i = 0; i < primeiroDia; i++) { %>
+            <div class="calendar-day"></div>
+          <% } %>
+
+          <% for (let dia = 1; dia <= diasNoMes; dia++) { %>
+            <div class="calendar-day">
+              <div class="day-number"><%= dia %></div>
+              <% const diaHorarios = horarios.filter(h => { 
+                   const data = new Date(h.data);
+                   return data.getDate() === dia;
+                 }); %>
+              <% diaHorarios.forEach(horario => { %>
+                <div class="time-slot" 
+                     onclick="reservarHorario(<%= horario.id %>, '<%= horario.data %>', '<%= horario.hora %>')">
+                  <%= horario.hora %>
+                </div>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <script>
+    async function reservarHorario(horarioId, data, hora) {
+      try {
+        const confirmacao = confirm(`Confirmar agendamento para ${formatarData(data)} às ${hora}?`);
+        if (!confirmacao) return;
+
+        const response = await fetch('/reservar-horario', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ horarioId })
+        });
+
+        const resultado = await response.json();
+        
+        if (resultado.success) {
+          alert(resultado.message);
+          window.location.reload();
+        } else {
+          alert(resultado.error);
+        }
+      } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao conectar com o servidor');
+      }
+    }
+
+    function formatarData(dataStr) {
+      const [ano, mes, dia] = dataStr.split('-');
+      return `${dia}/${mes}/${ano}`;
+    }
+  </script>
+</body>
+</html>
