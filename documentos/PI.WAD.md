@@ -171,7 +171,10 @@ link: https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/tela1.png" width="1000px;" alt=""/>
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/tela2.png" width="1000px;" alt=""/>
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/tela3.png" width="1000px;" alt=""/>
+<td align="center"><img style="border-radius: 100%;" src="/assets/WAD/tela4.png" width="1000px;" alt=""/>
 
 ---
 
