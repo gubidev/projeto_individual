@@ -76,12 +76,12 @@
       <form method="GET" action="/paciente/dashboard">
         <div class="control-group">
           <label for="medico">Médico:</label>
-          <select id="medico" name="medico_id" required onchange="this.form.submit()">
+          <select id="medico" name="medico_id" required>
             <option value="">Selecione um médico</option>
             <% medicos.forEach(medico => { %>
               <option 
                 value="<%= medico.id %>" 
-                <%= medico.id === medicoSelecionado ? 'selected' : '' %>>
+                <%= medico.id == medicoSelecionado ? 'selected' : '' %>>
                 <%= medico.nome %>
               </option>
             <% }); %>
@@ -91,11 +91,11 @@
         <% if (medicoSelecionado) { %>
           <div class="control-group">
             <label for="mes">Mês:</label>
-            <select id="mes" name="mes" onchange="this.form.submit()">
+            <select id="mes" name="mes">
               <% for (let m = 0; m < 12; m++) { %>
                 <option 
                   value="<%= m %>" 
-                  <%= m === mes ? 'selected' : '' %>>
+                  <%= m == mes ? 'selected' : '' %>>
                   <%= ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
                        'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m] %>
                 </option>
@@ -105,17 +105,18 @@
 
           <div class="control-group">
             <label for="ano">Ano:</label>
-            <select id="ano" name="ano" onchange="this.form.submit()">
+            <select id="ano" name="ano">
               <% for (let y = anoAtual - 1; y <= anoAtual + 1; y++) { %>
                 <option 
                   value="<%= y %>" 
-                  <%= y === ano ? 'selected' : '' %>>
+                  <%= y == ano ? 'selected' : '' %>>
                   <%= y %>
                 </option>
               <% } %>
             </select>
           </div>
         <% } %>
+        <button type="submit">Buscar</button>
       </form>
     </div>
 
