@@ -14,7 +14,7 @@
 
 -----
 
-## \<a name="introducao"\>\</a\>1. Introdução
+## 1. Introdução
 
 O sistema proposto é uma aplicação web de reserva de horários para consultas médicas, voltado tanto para profissionais da saúde quanto para seus pacientes. A ideia central é permitir que o médico possa cadastrar seus horários disponíveis ao longo da semana, e que os pacientes possam visualizar esses horários e realizar agendamentos conforme sua conveniência.
 
@@ -22,7 +22,7 @@ A plataforma será simples, acessível e eficaz, com uma interface intuitiva par
 
 -----
 
-## \<a name="visao-geral"\>\</a\>2. Visão Geral da Aplicação Web
+## 2. Visão Geral da Aplicação Web
 
 ### 2.1. Personas
 
@@ -51,7 +51,7 @@ A plataforma será simples, acessível e eficaz, com uma interface intuitiva par
 
 -----
 
-## \<a name="projeto-tecnico"\>\</a\>3. Projeto Técnico da Aplicação Web
+## 3. Projeto Técnico da Aplicação Web
 
 ### 3.1. Modelagem do Banco de Dados
 
@@ -181,7 +181,7 @@ ALTER TABLE "reservas" ADD CONSTRAINT "fk_horario" FOREIGN KEY ("horario_id") RE
 
 -----
 
-## \<a name="desenvolvimento"\>\</a\>4. Desenvolvimento da Aplicação Web
+## 4. Desenvolvimento da Aplicação Web
 
 ### 4.1. Demonstração do Sistema Web
 
@@ -212,7 +212,7 @@ O desenvolvimento do sistema web completo focou na implementação das funcional
 
 -----
 
-## \<a name="referencias"\>\</a\>5. Referências
+## 5. Referências
 
   * 
 
