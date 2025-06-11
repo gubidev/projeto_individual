@@ -227,19 +227,19 @@ O desenvolvimento do sistema web completo focou na implementação das funcional
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
-#Pontos Fortes:
+## Pontos Fortes:
 
 - Interface intuitiva e focada na experiência do usuário para agendamentos e gerenciamento.
 Utilização de um banco de dados relacional robusto para garantir a integridade dos dados.
 Estrutura de código organizada seguindo o padrão MVC, facilitando a manutenção e futuras expansões.
 
-#Pontos a Melhorar:
+## Pontos a Melhorar:
 
 - Implementação de um sistema de notificações (e-mail/SMS) para confirmar agendamentos e lembretes.
 Desenvolvimento de uma funcionalidade de cancelamento ou reagendamento de consultas pelos usuários.
 Melhorias na validação de entrada de dados para garantir a robustez do sistema.
 
-#Ideias para Melhorias Futuras:
+## Ideias para Melhorias Futuras:
 
 - Funcionalidade de perfil completo para médicos e pacientes, com histórico de consultas.
 Integração com sistemas de calendário (Google Calendar, Outlook) para sincronização automática.
