@@ -165,7 +165,48 @@ link: https://www.figma.com/design/utkNtl7oMYC0zAjiixhWez/Untitled?node-id=0-1&t
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+# Endpoints do Médico
+GET /dashboard
+#### Descrição: 
+Exibe o dashboard do médico autenticado, mostrando o calendário de horários disponíveis e reservas.
+#### Query Params:
+mes (opcional): Mês do calendário (0-11).
+ano (opcional): Ano do calendário.
+Requer: Sessão de médico (req.session.medicoId).
+
+# Endpoints do Paciente
+GET /paciente/dashboard
+#### Descrição: 
+Exibe o dashboard do paciente autenticado, permitindo selecionar médico, mês e ano para visualizar horários disponíveis.
+#### Query Params:
+medico_id: ID do médico selecionado.
+mes: Mês selecionado (0-11).
+ano: Ano selecionado.
+Requer: Sessão de paciente (req.session.pacienteId).
+POST /reservar-horario
+#### Descrição: Permite ao paciente reservar um horário disponível.
+Body:
+horarioId: ID do horário a ser reservado.
+Resposta:
+JSON com sucesso ou erro.
+Requer: Sessão de paciente.
+
+# Endpoints de Horários
+GET /horarios
+#### Descrição: Exibe o formulário para criação de horários disponíveis (geralmente para médicos/admin).
+POST /horarios
+#### Descrição: Cria um novo horário disponível para um médico.
+Body:
+medico_id, data, hora.
+POST /horarios-dashboard
+#### Descrição: Cria um novo horário disponível a partir do dashboard do médico.
+Body:
+id_medico, data, horario.
+GET /horarios-por-data
+#### Descrição: Lista horários disponíveis e reservas para um médico em uma data específica.
+Query Params:
+data: Data desejada.
+id_medico: ID do médico.  
 
 ### 3.7 Interface e Navegação (Semana 07)
 
