@@ -7,41 +7,64 @@ Este projeto é um boilerplate básico para uma aplicação Node.js seguindo o p
 - Node.js (versão X.X.X)
 - PostgreSQL (versão X.X.X)
 
-## Instalação
+Aqui está a tradução para português:
 
-1. **Clonar o repositório:**
+## 💻 Configuração para desenvolvimento e execução
 
-```bash
-   git clone https://github.com/seu-usuario/seu-projeto.git
-   cd seu-projeto
-```
+Aqui você encontrará todas as instruções necessárias para instalar os programas, bibliotecas e ferramentas para configurar o ambiente de desenvolvimento.
 
-2. **Instalar as dependências:**
-    
-```bash
-npm install
-```
-    
-3. **Configurar o arquivo `.env`:**
-    
-Renomeie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente necessárias, como as configurações do banco de dados PostgreSQL.
-    
+1.  Baixe e instale o Node.js: [https://nodejs.org/en](https://nodejs.org/en) (versão 16.15.1 LTS)
 
-Configuração do Banco de Dados
-------------------------------
+2.  Clone o repositório e digite o seguinte comando no terminal para navegar até o caminho correto:
 
-1. **Criar banco de dados:**
-    
-    Crie um banco de dados PostgreSQL com o nome especificado no seu arquivo `.env`.
-    
-2. **Executar o script SQL de inicialização:**
-    
-```bash
-npm run init-db
-```
-    
-Isso criará a tabela `users` no seu banco de dados PostgreSQL com UUID como chave primária e inserirá alguns registros de exemplo.
-    
+    ```
+    git clone https://github.com/Inteli-College/2025-1B-T18-IN02-G05.git
+    cd src
+    ```
+
+3.  Instale as dependências
+
+    ```
+    npm install
+    ```
+
+4.  Se necessário, instale também:
+
+    ```
+    npm install dotenv
+    npm install ejs
+    npm install express
+    npm install pg
+    npm install express-session
+    ```
+
+5.  Configure o ambiente:
+
+    Crie o arquivo `.env` e preencha-o com as informações do seu projeto [Supabase](https://supabase.com/):
+
+    ```
+    DB_HOST=
+    DB_PORT=
+    DB_USER=
+    DB_PASSWORD=
+    DB_DATABASE=
+    PORT=3000
+    ```
+
+6.  Inicialize o banco de dados
+
+    ```
+    Execute o script "runSQLScript"
+
+    ```
+
+7.  Execute a aplicação
+
+    ```
+    node app.js
+    ```
+
+    A aplicação estará disponível em [**http://localhost:3000**](https://www.google.com/search?q=http://localhost:3000/).
 
 Funcionalidades
 ---------------
@@ -50,15 +73,8 @@ Funcionalidades
 * **PostgreSQL:** Banco de dados relacional utilizado para persistência dos dados.
 * **UUID:** Utilização de UUID como chave primária na tabela `users`.
 * **Scripts com `nodemon`:** Utilização do `nodemon` para reiniciar automaticamente o servidor após alterações no código.
-* **Testes:** Inclui estrutura básica para testes automatizados.
 
-Scripts Disponíveis
--------------------
 
-* `npm start`: Inicia o servidor Node.js.
-* `npm run dev`: Inicia o servidor com `nodemon`, reiniciando automaticamente após alterações no código.
-* `npm run test`: Executa os testes automatizados.
-* `npm run test:coverage`: Executa os testes e gera um relatório de cobertura de código.
 
 Estrutura de Diretórios
 -----------------------
@@ -80,4 +96,3 @@ Licença
 
 Este projeto está licenciado sob a Licença MIT.
 
-Este README.md fornece uma visão geral clara do boilerplate, incluindo instruções de instalação, configuração do banco de dados, funcionalidades principais, scripts disponíveis, estrutura de diretórios, como contribuir e informações de licença. Certifique-se de personalizar as seções com detalhes específicos do seu projeto conforme necessário.
