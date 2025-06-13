@@ -221,7 +221,7 @@ id_medico: ID do médico.
 
 ### 4.1 Demonstração do Sistema Web (Semana 8)
 
-**Vídeo:** Não tem
+**Vídeo:** https://youtu.be/0jS9uH6C66A 
 
 O desenvolvimento do sistema web completo focou na implementação das funcionalidades essenciais de cadastro de horários por parte dos médicos e agendamento por parte dos pacientes, conforme as User Stories definidas. A arquitetura MVC foi aplicada para organizar o código, separando a lógica de negócios, a interface do usuário e o controle de requisições. O banco de dados PostgreSQL foi utilizado para persistir as informações de médicos, pacientes, horários e reservas.
 
